@@ -17,6 +17,10 @@ using Microsoft.Extensions.Configuration;
 
 namespace ConsoleApp1
 {
+    /// <summary>
+    /// 该类来自Abp框架 <see cref="https://aspnetboilerplate.com"/>
+    /// Abp的实现非常值得借用和学习
+    /// </summary>
     public static class AppConfigurations
     {
         private static readonly ConcurrentDictionary<string, IConfigurationRoot> ConfigurationCache;
