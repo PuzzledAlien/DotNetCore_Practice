@@ -12,7 +12,7 @@ namespace ConsoleApp_CreateIndex
         {
             _indexName = "TEST";
             _indexName = _indexName.ToLower();//索引名称一定要小写
-            _elasticClient = GetElasticClient();
+            _elasticClient = GetElasticClientByPool();
             
             var existsResponse = _elasticClient.IndexExists(_indexName);
             if (!existsResponse.Exists)
