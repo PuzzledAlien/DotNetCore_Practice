@@ -56,6 +56,12 @@ namespace BulkAll
 
             Exception exception = null;
 
+            void OnCompleted()
+            {
+                WriteLine("BulkAll Finished");
+                countdownEvent.Signal();
+            }
+
             var bulkAllObserver = new BulkAllObserver(
                 onNext: response =>
                 {
@@ -67,11 +73,7 @@ namespace BulkAll
                     exception = ex;
                     countdownEvent.Signal();
                 },
-                onCompleted: () =>
-                {
-                    WriteLine("BulkAll Finished");
-                    countdownEvent.Signal();
-                });
+                OnCompleted);
 
             observableBulk.Subscribe(bulkAllObserver);
 
