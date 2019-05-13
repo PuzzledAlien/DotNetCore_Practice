@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using Abp.Modules;
 using Topshelf;
 
@@ -14,6 +15,8 @@ namespace Demo.MyJob
 
         public override void PostInitialize()
         {
+            log4net.GlobalContext.Properties["LogsDirectory"] = AppDomain.CurrentDomain.BaseDirectory;
+
             HostFactory.Run(configure =>
             {
                 //定义服务描述
@@ -22,6 +25,9 @@ namespace Demo.MyJob
                 configure.SetServiceName("Demo.MyJob");
 
                 configure.RunAsLocalSystem();
+
+                //使用log4net记录日志
+                configure.UseLog4Net("App.config");
 
                 //定义操作
                 configure.Service<MyJobService>(service =>
