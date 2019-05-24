@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Reflection;
 using Abp.Modules;
+using Castle.Windsor.MsDependencyInjection;
+using Demo.MyJob.Configuration;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Topshelf;
 
 namespace Demo.MyJob
@@ -8,6 +13,24 @@ namespace Demo.MyJob
     [DependsOn(typeof(MyJobApplicationModule))]
     public class MyJobAbpModule : AbpModule
     {
+        public IConfiguration AppConfiguration { get; set; }
+
+        public override void PreInitialize()
+        {
+            var host = new HostBuilder().ConfigureAppConfiguration((hostContext, configApp) =>
+            {
+                var hostingEnvironment = hostContext.HostingEnvironment;
+                AppConfiguration = AppConfigurations.Get(hostingEnvironment.ContentRootPath, hostingEnvironment.EnvironmentName);
+            }).ConfigureServices((hostContext, services) =>
+            {
+                services.AddSingleton(AppConfiguration);
+
+                WindsorRegistrationHelper.CreateServiceProvider(IocManager.IocContainer, services);
+            });
+
+            host.Build();
+        }
+
         public override void Initialize()
         {
             IocManager.RegisterAssemblyByConvention(Assembly.GetExecutingAssembly());
