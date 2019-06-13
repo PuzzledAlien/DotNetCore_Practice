@@ -8,6 +8,10 @@ namespace Demo.MyJob.Jobs
     {
         public async Task Execute(IJobExecutionContext context)
         {
+            await Task.Run(() =>
+            {
+                Console.WriteLine("Hello World to Async!");
+            });
             Console.WriteLine("Hello World!");
         }
     }
