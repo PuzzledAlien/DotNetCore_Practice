@@ -14,7 +14,7 @@ namespace ConsoleApp_CreateIndex
             _indexName = _indexName.ToLower();//索引名称一定要小写
             _elasticClient = GetElasticClientByPool();
             
-            var existsResponse = _elasticClient.IndexExists(_indexName);
+            var existsResponse = _elasticClient.Indices.Exists(_indexName);
             if (!existsResponse.Exists)
             {
                 //基本配置
@@ -27,9 +27,9 @@ namespace ConsoleApp_CreateIndex
                     }
                 };
 
-                ICreateIndexResponse response = _elasticClient.CreateIndex(_indexName, p => p
+                CreateIndexResponse response = _elasticClient.Indices.Create(_indexName, p => p
                     .InitializeUsing(indexState)
-                    .Mappings(m => m.Map<People>(r => r.AutoMap()))
+                    .Map<People>(r => r.AutoMap())
                 );
 
                 if (response.IsValid)

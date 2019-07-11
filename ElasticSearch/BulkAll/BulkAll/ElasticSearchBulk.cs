@@ -10,7 +10,7 @@ namespace BulkAll
     {
         public static bool CreateIndex<T>(IElasticClient elasticClient, string indexName) where T : class
         {
-            var existsResponse = elasticClient.IndexExists(indexName);
+            var existsResponse = elasticClient.Indices.Exists(indexName);
             // 存在则返回true 不存在创建
             if (existsResponse.Exists)
             {
@@ -26,8 +26,8 @@ namespace BulkAll
                 }
             };
 
-            ICreateIndexResponse response = elasticClient.CreateIndex(indexName, p => p
-                .InitializeUsing(indexState).Mappings(m => m.Map<T>(r => r.AutoMap()))
+            CreateIndexResponse response = elasticClient.Indices.Create(indexName, p => p
+                .InitializeUsing(indexState).Map<T>(r => r.AutoMap())
             );
 
             return response.IsValid;
