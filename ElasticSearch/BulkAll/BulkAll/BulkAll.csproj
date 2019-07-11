@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NEST.JsonNetSerializer" Version="6.6.0" />
+    <PackageReference Include="NEST.JsonNetSerializer" Version="7.0.1" />
   </ItemGroup>
 
 </Project>
