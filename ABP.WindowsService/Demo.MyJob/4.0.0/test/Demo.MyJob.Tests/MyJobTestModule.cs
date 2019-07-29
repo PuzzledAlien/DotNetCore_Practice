@@ -39,7 +39,7 @@ namespace Demo.MyJob.Tests
             );
 
             var builder = new DbContextOptionsBuilder<MyJobDbContext>();
-            builder.UseInMemoryDatabase().UseInternalServiceProvider(serviceProvider);
+            builder.UseInMemoryDatabase("___Shared_Database___").UseInternalServiceProvider(serviceProvider);
 
             IocManager.IocContainer.Register(
                 Component
