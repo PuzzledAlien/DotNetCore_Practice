@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Abp.Logging;
 using Quartz;
 
 namespace Demo.MyJob.Jobs
@@ -8,6 +9,7 @@ namespace Demo.MyJob.Jobs
     {
         public async Task Execute(IJobExecutionContext context)
         {
+            LogHelper.Logger.Info(nameof(SayHelloJob));
             await Task.Run(() =>
             {
                 Console.WriteLine("Hello World to Async!");

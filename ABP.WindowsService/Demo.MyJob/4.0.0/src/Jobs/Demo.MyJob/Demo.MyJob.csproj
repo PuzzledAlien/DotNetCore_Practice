@@ -6,16 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="App.config" />
     <None Remove="job_scheduling_data_2_0.xsd" />
     <None Remove="quartz.config" />
     <None Remove="quartz_jobs.xml" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="App.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="job_scheduling_data_2_0.xsd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -28,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Abp.Castle.Log4Net" Version="4.8.1" />
     <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="3.3.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.2.0" />
     <PackageReference Include="Quartz" Version="3.0.7" />
@@ -38,6 +35,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Demo.MyJob.Application\Demo.MyJob.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

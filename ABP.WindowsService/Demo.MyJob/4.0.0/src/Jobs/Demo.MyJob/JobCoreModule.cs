@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Reflection;
+using Abp.Castle.Logging.Log4Net;
 using Abp.Modules;
+using Castle.Facilities.Logging;
 using Castle.Windsor.MsDependencyInjection;
 using Demo.MyJob.Configuration;
 using Microsoft.Extensions.Configuration;
@@ -41,6 +43,9 @@ namespace Demo.MyJob
             {
                 var hostingEnvironment = hostContext.HostingEnvironment;
                 AppConfiguration = AppConfigurations.Get(hostingEnvironment.ContentRootPath, hostingEnvironment.EnvironmentName);
+
+                AppLog4NetConfigs.AddProperty("LogsDirectory", hostingEnvironment.ContentRootPath);
+                LogConfigFile = AppLog4NetConfigs.Get(hostingEnvironment.ContentRootPath, hostingEnvironment.EnvironmentName);
             }).ConfigureServices((hostContext, services) =>
             {
                 services.AddSingleton(AppConfiguration);
@@ -58,8 +63,9 @@ namespace Demo.MyJob
 
         public override void PostInitialize()
         {
-            log4net.GlobalContext.Properties["LogsDirectory"] = AppDomain.CurrentDomain.BaseDirectory;
-
+            IocManager.IocContainer.AddFacility<LoggingFacility>(
+                f => f.UseAbpLog4Net().WithConfig(LogConfigFile)
+            );
             HostFactory.Run(configure =>
             {
                 //定义服务描述
@@ -70,7 +76,7 @@ namespace Demo.MyJob
                 configure.RunAsLocalSystem();
 
                 //使用log4net记录日志
-                configure.UseLog4Net("App.config");
+                configure.UseLog4Net(LogConfigFile);
 
                 //定义操作
                 configure.Service<MyJobService>(service =>
