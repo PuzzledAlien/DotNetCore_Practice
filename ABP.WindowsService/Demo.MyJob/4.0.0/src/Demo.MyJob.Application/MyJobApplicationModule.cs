@@ -4,9 +4,7 @@ using Abp.Reflection.Extensions;
 
 namespace Demo.MyJob
 {
-    [DependsOn(
-        typeof(MyJobCoreModule), 
-        typeof(AbpAutoMapperModule))]
+    [DependsOn(typeof(MyJobCoreModule))]
     public class MyJobApplicationModule : AbpModule
     {
         public override void Initialize()
