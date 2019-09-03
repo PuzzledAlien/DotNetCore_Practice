@@ -24,6 +24,8 @@ namespace Demo.MyJob.Web.Startup
 
         public override void PreInitialize()
         {
+            Configuration.Auditing.IsEnabled = false;
+
             Configuration.DefaultNameOrConnectionString = _appConfiguration.GetConnectionString(MyJobConsts.ConnectionStringName);
 
             Configuration.Navigation.Providers.Add<MyJobNavigationProvider>();

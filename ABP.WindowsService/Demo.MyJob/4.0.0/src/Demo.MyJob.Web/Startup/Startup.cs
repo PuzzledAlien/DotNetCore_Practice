@@ -27,6 +27,8 @@ namespace Demo.MyJob.Web.Startup
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
 
+            log4net.GlobalContext.Properties["LogsDirectory"] = AppDomain.CurrentDomain.BaseDirectory;
+
             //Configure Abp and Dependency Injection
             return services.AddAbp<MyJobWebModule>(options =>
             {
